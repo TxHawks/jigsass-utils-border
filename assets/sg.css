@@ -1,0 +1,768 @@
+/* ---
+section: Border Utils
+title: Introduction
+order: -10
+---
+
+A collection of dynamically generated border utility classes.
+
+JigSass Utils Border works in tandem with
+[JigSass Tools typography](https://txhawks.github.io/jigsass-tools-typography),
+providing utility classes which add borders that don't mess up vertical rhythm.
+
+Border utils can be limited to a certain state (i.e., `hover`, `focus`,  etc.)
+
+The syntax for generating a border util is: `$modifier: '<width-in-pixels>[(<rhythm-units>,<border-style>,<border-color>)][:state]'`
+
+Class names follow the [Emmet](http://docs.emmet.io/cheat-sheet/) abbreviation
+syntax, with colons (':') replaced by two dashes (`--`) to follow BEM naming
+conventions, e.g, bdb--1px(2,solid,#ccc) for setting border-bottom of 1px,
+a padding-bottom of two typographic lines minus the border width, border-style
+of solid and border-color or #ccc.
+
+#### Available classes
+
+  - `u-bd--<width>` (example: u-bd--2px, sets a border of 2 pixels around an element)
+  - `u-bd--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px around an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdt--<width>` (example: u-bd--2px, sets a border of 2 pixels above an element)
+  - `u-bdt--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px above an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bde--<width>` (example: u-bd--2px, sets a border of 2 pixels at the horizontal end an element)
+  - `u-bde--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the horizontal end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdr--<width>` (example: u-bd--2px, sets a border of 2 pixels at the right end of an element)
+  - `u-bdr--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the right end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdb--<width>` (example: u-bd--2px, sets a border of 2 pixels below an element)
+  - `u-bdb--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px below an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bds--<width>` (example: u-bd--2px, sets a border of 2 pixels at the horizontal start an element)
+  - `u-bds--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the horizontal start of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdl--<width>` (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)
+  - `u-bdl--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the left end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+
+#### Installation
+
+Using npm:
+
+```sh
+npm i -S jigsass-utils-border
+```
+
+#### Usage
+
+Import JigSass Utils Border into your main scss file near its very end, together with all
+other utilities (utilities should always be the last to be imported).
+
+```scss
+@import 'path/to/jigsass-utils-border/scss/index';
+```
+
+Like all other JigSass Utils, JigSass Utils Border does not automatically generate any CSS
+when imported. You would need to explicitly indicate that each individual border
+class should actually be generated in each component or object it is used in
+(clarification: This will include style declarations inside `.foo` and .`bar`):
+
+```scss
+// _c.foo.scss
+.foo {
+  @include jigsass-util(u-bds, $modifier: '2px(1,solid,#4c4)');
+
+  ...
+}
+```
+
+```scss
+// _c.bar.scss
+.bar {
+  @include jigsass-util(u-bdb, $modifier: '1px(1,dotted,#4c4):hover');
+  @include jigsass-util(u-bdb, $modifier: '2px(1,dotted,#4c4):hover', $from: large);
+
+  ...
+}
+```
+
+Doing so helps us a great deal with portability, as no matter where we import component or object
+partials, the correct utility classes will be generated. Think of it as a poor man's dependency
+management.
+
+Developer communication is also assisted by including "dependencies" wherever they are required,
+as anyone going through a partial, can easily understand how it should be marked up with just a
+glance.
+
+As far as bloat goes, just don't worry about it - the actual styles will only be generated once,
+at the location in the cascade where the Jigsass Utils Border partial was imported into the main file.
+
+
+JigSass Utils Border classes are responsive-enabled, using [JigSass MQ](https://txhawks.github.io/jigsass-tools-mq/)
+and the breakpoints defined in the [$jigsass-breakpoints](https://txhawks.github.io/jigsass-tools-mq/#variable-jigsass-breakpoints) variable.
+
+Based on the breakpoint arguments passed to `jigsass-util` when including a class,
+responsive modifiers are generated according to the following logic:
+
+```scss
+.u-bd-<modifier>[-[-from-<breakpoint-name>][-until-<breakpoint-name>][-misc-<breakpoint-name>]]
+```
+
+So, assuming the `medium`, `large` and `landscape` breakpoints are defined in `$jigsass-breakpoints`
+as `600px`, `1024px` and `(orientation: landscape)` respectively,
+
+```scss
+@include jigsass-util(u-bd, $modifier: 1px);
+```
+will generate the `u-bd--1px` class, which is not limited to any media-query.
+
+```scss
+@include jigsass-util(u-bd, $modifier: '1px(1,solid)', $until: medium);
+```
+
+will generate the `u-bd--1px(1,solid)--until-medium` class, which will be in effect at
+`(max-width: 37.49em)` and will override styles in the default class until that point.
+
+```scss
+@include jigsass-util(u-bd, $modifier: 2px(2):focus, $from: large, $misc: landscape);
+```
+
+will generate the `u-bd--2px(2):focus--from-large-when-landscape` class, which will go into
+effect at `(min-width: 64em) and (orientation: landscape)` and will override styles in the default
+class under these  conditions.
+
+
+**License:** MIT
+
+*/
+.u-bd--6px {
+  border: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bd--6px
+order: 1
+---
+A utility class to set an element's border
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bd, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bd--6px'></div>
+```
+*/
+}
+
+.u-bd--6px\(2\,solid\,\#0784ae\) {
+  border: 1rem solid #0784ae;
+  padding: 1rem;
+  /* ---
+section: Border Utils
+title: u-bd--6px(2,solid,#0784ae)
+order: 2
+---
+A utility class to set an element's border
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bd, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bd--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+.u-bd--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border: 1rem solid #0784ae;
+  padding: 1rem;
+  /* ---
+section: Border Utils
+title: u-bd--6px(2,solid,#0784ae):hover
+order: 3
+---
+A utility class to set an element's border
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bd, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bd--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+.u-bdt--6px {
+  border-top: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bdt--6px
+order: 104
+---
+A utility class to set an element's border-top
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdt, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdt--6px'></div>
+```
+*/
+}
+
+.u-bdt--6px\(2\,solid\,\#0784ae\) {
+  border-top: 1rem solid #0784ae;
+  padding-top: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdt--6px(2,solid,#0784ae)
+order: 105
+---
+A utility class to set an element's border-top
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdt, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdt--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+.u-bdt--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-top: 1rem solid #0784ae;
+  padding-top: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdt--6px(2,solid,#0784ae):hover
+order: 106
+---
+A utility class to set an element's border-top
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdt, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdt--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+.u-bde--6px {
+  border-right: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bde--6px
+order: 207
+---
+A utility class to set an element's border-end
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bde, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bde--6px'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bde--6px {
+  border-right: 6px solid;
+}
+
+[dir=rtl] .u-bde--6px {
+  border-left: 6px solid;
+}
+
+.u-bde--6px\(2\,solid\,\#0784ae\) {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+  /* ---
+section: Border Utils
+title: u-bde--6px(2,solid,#0784ae)
+order: 208
+---
+A utility class to set an element's border-end
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bde, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bde--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bde--6px\(2\,solid\,\#0784ae\) {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+}
+
+[dir=rtl] .u-bde--6px\(2\,solid\,\#0784ae\) {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+}
+
+.u-bde--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+  /* ---
+section: Border Utils
+title: u-bde--6px(2,solid,#0784ae):hover
+order: 209
+---
+A utility class to set an element's border-end
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bde, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bde--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bde--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+}
+
+[dir=rtl] .u-bde--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+}
+
+.u-bdr--6px {
+  border-right: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bdr--6px
+order: 310
+---
+A utility class to set an element's border-right
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdr, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdr--6px'></div>
+```
+*/
+}
+
+.u-bdr--6px\(2\,solid\,\#0784ae\) {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdr--6px(2,solid,#0784ae)
+order: 311
+---
+A utility class to set an element's border-right
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdr, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdr--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+.u-bdr--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdr--6px(2,solid,#0784ae):hover
+order: 312
+---
+A utility class to set an element's border-right
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdr, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdr--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+.u-bdb--6px {
+  border-bottom: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bdb--6px
+order: 413
+---
+A utility class to set an element's border-bottom
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdb, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdb--6px'></div>
+```
+*/
+}
+
+.u-bdb--6px\(2\,solid\,\#0784ae\) {
+  border-bottom: 1rem solid #0784ae;
+  padding-bottom: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdb--6px(2,solid,#0784ae)
+order: 414
+---
+A utility class to set an element's border-bottom
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdb, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdb--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+.u-bdb--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-bottom: 1rem solid #0784ae;
+  padding-bottom: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdb--6px(2,solid,#0784ae):hover
+order: 415
+---
+A utility class to set an element's border-bottom
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdb, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdb--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+.u-bds--6px {
+  border-left: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bds--6px
+order: 516
+---
+A utility class to set an element's border-start
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bds, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bds--6px'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bds--6px {
+  border-left: 6px solid;
+}
+
+[dir=rtl] .u-bds--6px {
+  border-right: 6px solid;
+}
+
+.u-bds--6px\(2\,solid\,\#0784ae\) {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+  /* ---
+section: Border Utils
+title: u-bds--6px(2,solid,#0784ae)
+order: 517
+---
+A utility class to set an element's border-start
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bds, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bds--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bds--6px\(2\,solid\,\#0784ae\) {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+}
+
+[dir=rtl] .u-bds--6px\(2\,solid\,\#0784ae\) {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+}
+
+.u-bds--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+  /* ---
+section: Border Utils
+title: u-bds--6px(2,solid,#0784ae):hover
+order: 518
+---
+A utility class to set an element's border-start
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bds, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bds--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+[dir=ltr] .u-bds--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+}
+
+[dir=rtl] .u-bds--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-right: 1rem solid #0784ae;
+  padding-right: 1rem;
+}
+
+.u-bdl--6px {
+  border-left: 6px solid;
+  /* ---
+section: Border Utils
+title: u-bdl--6px
+order: 619
+---
+A utility class to set an element's border-left
+
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdl, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdl--6px'></div>
+```
+*/
+}
+
+.u-bdl--6px\(2\,solid\,\#0784ae\) {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdl--6px(2,solid,#0784ae)
+order: 620
+---
+A utility class to set an element's border-left
+and padding  so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdl, $modifier: 6px(2,solid,#0784ae) [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdl--6px(2,solid,#0784ae)'></div>
+```
+*/
+}
+
+.u-bdl--6px\(2\,solid\,\#0784ae\)\:hover:hover {
+  border-left: 1rem solid #0784ae;
+  padding-left: 1rem;
+  /* ---
+section: Border Utils
+title: u-bdl--6px(2,solid,#0784ae):hover
+order: 621
+---
+A utility class to set an element's border-left
+and padding on <code>:hover</code> so that it does not mess up the vertical rhythm
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdl, $modifier: 6px(2,solid,#0784ae):hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdl--6px(2,solid,#0784ae):hover'></div>
+```
+*/
+}
+
+html {
+  font-size: 37.5%;
+}
+
+body {
+  font-size: 2.6666666667em;
+  line-height: 4rem;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0 !important;
+  padding: 2rem !important;
+}
+
+.fpo {
+  background-color: #09a5d9;
+  box-sizing: border-box;
+  color: #333;
+  min-height: 6rem;
+}
+
+figure,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
