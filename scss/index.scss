@@ -1,0 +1,384 @@
+// *************************************
+//
+// # jigsass-utils-border
+// -> Border utility classes
+//
+// Author: TxHawks (tofu.hawks@gmail.com)
+// https://txhawks.github.com/jigsass-utils-border/
+//
+// *************************************
+
+@charset 'UTF-8';
+
+
+// -------------------------------------
+// Dependencies
+// -------------------------------------
+
+@if (not mixin-exists(jigsass-define-util)) {
+  @error '`jigsass-utils-border` has a dependency on `jigsass-tools-selectors`. ' +
+    'Please import it before this file.';
+}
+@if (not mixin-exists(jigsass-border)) {
+  @error '`jigsass-utils-border` has a dependency on `jigsass-tools-typography`. ' +
+    'Please import it before this file.';
+}
+@if (not global-variable-exists(jigsass-direction)) {
+  @error '`jigsass-utils-border` has a dependency on `jigsass-tools-bidi`. ' +
+    'Please import it before this file.';
+}
+
+
+
+
+
+// -------------------------------------
+// Introduction
+// -------------------------------------
+
+// stylelint-disable
+/* ---
+section: Border Utils
+title: Introduction
+order: -10
+---
+
+A collection of dynamically generated border utility classes.
+
+JigSass Utils Border works in tandem with
+[JigSass Tools typography](https://txhawks.github.io/jigsass-tools-typography),
+providing utility classes which add borders that don't mess up vertical rhythm.
+
+Border utils can be limited to a certain state (i.e., `hover`, `focus`,  etc.)
+
+The syntax for generating a border util is: `$modifier: '<width-in-pixels>[(<rhythm-units>,<border-style>,<border-color>)][:state]'`
+
+Class names follow the [Emmet](http://docs.emmet.io/cheat-sheet/) abbreviation
+syntax, with colons (':') replaced by two dashes (`--`) to follow BEM naming
+conventions, e.g, bdb--1px(2,solid,#ccc) for setting border-bottom of 1px,
+a padding-bottom of two typographic lines minus the border width, border-style
+of solid and border-color or #ccc.
+
+#### Available classes
+
+  - `u-bd--<width>` (example: u-bd--2px, sets a border of 2 pixels around an element)
+  - `u-bd--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px around an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdt--<width>` (example: u-bd--2px, sets a border of 2 pixels above an element)
+  - `u-bdt--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px above an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bde--<width>` (example: u-bd--2px, sets a border of 2 pixels at the horizontal end an element)
+  - `u-bde--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the horizontal end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdr--<width>` (example: u-bd--2px, sets a border of 2 pixels at the right end of an element)
+  - `u-bdr--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the right end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdb--<width>` (example: u-bd--2px, sets a border of 2 pixels below an element)
+  - `u-bdb--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px below an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bds--<width>` (example: u-bd--2px, sets a border of 2 pixels at the horizontal start an element)
+  - `u-bds--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the horizontal start of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+  - `u-bdl--<width>` (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)
+  - `u-bdl--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
+    sets a border of 1px at the left end of an element, padding of 1 rhythm unit minus 1px, a
+    border-style of `dotted` and border color of `#ccc`)
+
+
+
+#### Installation
+
+Using npm:
+
+```sh
+npm i -S jigsass-utils-border
+```
+
+#### Usage
+
+Import JigSass Utils Border into your main scss file near its very end, together with all
+other utilities (utilities should always be the last to be imported).
+
+```scss
+@import 'path/to/jigsass-utils-border/scss/index';
+```
+
+Like all other JigSass Utils, JigSass Utils Border does not automatically generate any CSS
+when imported. You would need to explicitly indicate that each individual border
+class should actually be generated in each component or object it is used in
+(clarification: This will include style declarations inside `.foo` and .`bar`):
+
+```scss
+// _c.foo.scss
+.foo {
+  @include jigsass-util(u-bds, $modifier: '2px(1,solid,#4c4)');
+
+  ...
+}
+```
+
+```scss
+// _c.bar.scss
+.bar {
+  @include jigsass-util(u-bdb, $modifier: '1px(1,dotted,#4c4):hover');
+  @include jigsass-util(u-bdb, $modifier: '2px(1,dotted,#4c4):hover', $from: large);
+
+  ...
+}
+```
+
+Doing so helps us a great deal with portability, as no matter where we import component or object
+partials, the correct utility classes will be generated. Think of it as a poor man's dependency
+management.
+
+Developer communication is also assisted by including "dependencies" wherever they are required,
+as anyone going through a partial, can easily understand how it should be marked up with just a
+glance.
+
+As far as bloat goes, just don't worry about it - the actual styles will only be generated once,
+at the location in the cascade where the Jigsass Utils Border partial was imported into the main file.
+
+
+JigSass Utils Border classes are responsive-enabled, using [JigSass MQ](https://txhawks.github.io/jigsass-tools-mq/)
+and the breakpoints defined in the [$jigsass-breakpoints](https://txhawks.github.io/jigsass-tools-mq/#variable-jigsass-breakpoints) variable.
+
+Based on the breakpoint arguments passed to `jigsass-util` when including a class,
+responsive modifiers are generated according to the following logic:
+
+```scss
+.u-bd-<modifier>[-[-from-<breakpoint-name>][-until-<breakpoint-name>][-misc-<breakpoint-name>]]
+```
+
+So, assuming the `medium`, `large` and `landscape` breakpoints are defined in `$jigsass-breakpoints`
+as `600px`, `1024px` and `(orientation: landscape)` respectively,
+
+```scss
+@include jigsass-util(u-bd, $modifier: 1px);
+```
+will generate the `u-bd--1px` class, which is not limited to any media-query.
+
+```scss
+@include jigsass-util(u-bd, $modifier: '1px(1,solid)', $until: medium);
+```
+
+will generate the `u-bd--1px(1,solid)--until-medium` class, which will be in effect at
+`(max-width: 37.49em)` and will override styles in the default class until that point.
+
+```scss
+@include jigsass-util(u-bd, $modifier: 2px(2):focus, $from: large, $misc: landscape);
+```
+
+will generate the `u-bd--2px(2):focus--from-large-when-landscape` class, which will go into
+effect at `(min-width: 64em) and (orientation: landscape)` and will override styles in the default
+class under these  conditions.
+
+
+**License:** MIT
+
+*/
+// stylelint-enable
+
+
+
+
+// -------------------------------------
+// Variables
+// -------------------------------------
+
+/// A constant used for generating border utility classes.
+/// ---
+/// @type Map
+/// ---
+$_jigsass-brdr-prop: (
+  u-bd: border,
+  u-bdt: border-top,
+  u-bde: border-end,
+  u-bdr: border-right,
+  u-bdb: border-bottom,
+  u-bds: border-start,
+  u-bdl: border-left
+);
+
+
+// Used internally to store doclets
+$_doclet-store: () !default;
+
+// Used internally to ordering doclets
+$_jigsass-util-brdr-i: 1;
+$_jigsass-util-brdr-addition: (
+ u-bd: 0,
+ u-bdt: 100,
+ u-bde: 200,
+ u-bdr: 300,
+ u-bdb: 400,
+ u-bds: 500,
+ u-bdl: 600
+);
+
+
+
+
+
+// -------------------------------------
+// Definitions
+// -------------------------------------
+
+@each $util in map-keys($_jigsass-brdr-prop) {
+  @include jigsass-define-util($util) {
+    @if(not $jigsass-util-modifier) {
+      @error '#{$jigsass-util-name} must be passed a border width as a modifier.';
+    }
+
+    $modifier: $jigsass-util-modifier;
+    $parsed-mod-values: jigsass-parse-modifier($jigsass-util-modifier);
+    $args: map-get($parsed-mod-values, args);
+    $lines: false;
+    $style: false;
+    $color: false;
+    $state: '';
+
+    @if (type-of($modifier) == string) {
+      $modifier: jigsass-str-to-number(map-get($parsed-mod-values, modifier));
+      $state: map-get($parsed-mod-values, state) or '';
+    }
+
+    @if (type-of($modifier) != number and unit($modifier) != px) {
+      @error '#{$jigsass-util-name}: A border width must be specified in pixels, ' +
+        'but you are trying to use #{$modifier}.'
+    }
+
+    @if ($args) {
+      $args-length: length($args);
+
+      $lines: nth($args, 1);
+      $style: if($args-length > 1, unquote(nth($args, 2)), false);
+      $color: if($args-length == 3, unquote(nth($args, 3)), false);
+
+      @if (not type-of($lines) == number or not unitless($lines)) {
+        @error '#{$jigsass-util-name}--#{$jigsass-util-modifier}: The `lines` argument must ' +
+          'a unitless number, but you are trying to pass #{$lines}.'
+      }
+
+      @if ($color) {
+        $style: append($style, $color, space);
+      }
+    }
+
+    &#{$state} {
+      @if ($args) {
+        $rtl: to-lower-case($jigsass-direction) == rtl;
+        $side: str-slice(map-get($_jigsass-brdr-prop, $jigsass-util-name), 8);
+        $side: if($side == '', all, $side);
+
+        @if ($side == start) {
+          $side: if($rtl, right, left);
+
+          @include jigsass-border($side, $modifier, $lines, $style or solid);
+
+          [dir=ltr] & {
+            @include jigsass-border(left, $modifier, $lines, $style or solid);
+          }
+
+          [dir=rtl] & {
+            @include jigsass-border(right, $modifier, $lines, $style or solid);
+          }
+        }
+        @else if ($side == end) {
+          $side: if($rtl, left, right);
+
+          @include jigsass-border($side, $modifier, $lines, $style or solid);
+
+          [dir=ltr] & {
+            @include jigsass-border(right, $modifier, $lines, $style or solid);
+          }
+
+          [dir=rtl] & {
+            @include jigsass-border(left, $modifier, $lines, $style or solid);
+          }
+        }
+        @else {
+          @include jigsass-border($side, $modifier, $lines, $style or solid);
+        }
+      }
+
+      @else {
+        @if ($jigsass-util-name == u-bds) {
+          @include jigsass-bidi(border-start, $modifier solid);
+
+          [dir=ltr] & {
+            border-left: $modifier solid;
+          }
+
+          [dir=rtl] & {
+            border-right: $modifier solid;
+          }
+        }
+        @else if ($jigsass-util-name == u-bde) {
+          @include jigsass-bidi(border-end, $modifier solid);
+
+          [dir=ltr] & {
+            border-right: $modifier solid;
+          }
+
+          [dir=rtl] & {
+            border-left: $modifier solid;
+          }
+        }
+        @else {
+          #{map-get($_jigsass-brdr-prop, $jigsass-util-name)}: $modifier solid;
+        }
+      }
+
+      $_doclet: $jigsass-util-name + ($jigsass-util-modifier or '');
+      @if (not index($_doclet-store, $_doclet)) {
+        $_doclet-store: append($_doclet-store, $_doclet) !global;
+        // stylelint-disable
+        @if ($args and not $state) { @error $text; }
+/* ---
+section: Border Utils
+title: #{$jigsass-util-name}--#{$jigsass-util-modifier}
+order: #{$_jigsass-util-brdr-i + map-get($_jigsass-util-brdr-addition, $jigsass-util-name)}
+---
+A utility class to set an element's #{map-get($_jigsass-brdr-prop, $jigsass-util-name)}
+#{if(
+  $args,
+  'and padding #{if($state != "", "on <code>" + $state + "</code>", "")} so that it does not mess up the vertical rhythm',
+  ''
+)}
+
+#### Include with:
+
+```scss
+@include jigsass-util(#{$jigsass-util-name}, $modifier: #{$jigsass-util-modifier} [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  #{$jigsass-util-name}--#{$jigsass-util-modifier}'></div>
+```
+*/
+        // stylelint-enable
+        $_jigsass-util-brdr-i: $_jigsass-util-brdr-i + 1 !global;
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+// *************************************
+//
+// # jigsass-utils-border style guide generator
+// -> It is a best practice for JigSass modules to
+//    not automatically generate css and documentation
+//    on `@import`. Please use this file to enable css
+//    (and comments) generation.
+//
+//    Files in `sgSrc/assets` will be available
+//    for use in the style guide
+//
+// *************************************
+
+@charset 'UTF-8';
+
+// --------------------
+// Dependencies
+// --------------------
+@import '../node_modules/jigsass-tools-maps/scss/index';
+@import '../node_modules/jigsass-tools-mq/scss/index';
+@import '../node_modules/jigsass-tools-typography/scss/index';
+@import '../node_modules/jigsass-tools-strings/scss/index';
+@import '../node_modules/jigsass-tools-bidi/scss/index';
+@import '../node_modules/jigsass-tools-selectors/scss/index';
+
+
+
+
+
+$jigsass-mdcss-brand-color: #09a5d9;
+$brdr-color: mix(#000, $jigsass-mdcss-brand-color, 20%);
+
+// --------------------
+// Styles
+// --------------------
+
+$_bd: u-bd u-bdt u-bde u-bdr u-bdb u-bds u-bdl;
+
+@each $util in $_bd {
+  @include jigsass-util($util, $modifier: 6px);
+  @include jigsass-util($util, $modifier: '6px(2,solid,#{$brdr-color})');
+  @include jigsass-util($util, $modifier: '6px(2,solid,#{$brdr-color}):hover');
+}
+
+
+
+@import 'index.scss';
+
+
+
+
+// --------------------
+// Demo Styles
+// --------------------
+
+@include jigsass-set-baseline;
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0 !important;
+  padding: 2rem !important;
+}
+
+.fpo {
+  background-color: $jigsass-mdcss-brand-color;
+  box-sizing: border-box;
+  color: #333;
+  min-height: 6rem;
+}
+
+
+figure,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
