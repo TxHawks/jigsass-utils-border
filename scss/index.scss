@@ -262,7 +262,7 @@ $_jigsass-util-brdr-addition: (
 
     @if (type-of($modifier) != number and unit($modifier) != px) {
       @error '#{$jigsass-util-name}: A border width must be specified in pixels, ' +
-        'but you are trying to use #{$modifier}.'
+        'but you are trying to use #{$modifier}.';
     }
 
     @if ($args) {
@@ -274,7 +274,7 @@ $_jigsass-util-brdr-addition: (
 
       @if (not type-of($lines) == number or not unitless($lines)) {
         @error '#{$jigsass-util-name}--#{$jigsass-util-modifier}: The `lines` argument must ' +
-          'a unitless number, but you are trying to pass #{$lines}.'
+          'a unitless number, but you are trying to pass #{$lines}.';
       }
 
       @if ($color) {
