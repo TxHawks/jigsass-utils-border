@@ -278,7 +278,16 @@ $_jigsass-util-brdr-addition: (
       }
 
       @if ($color) {
-        $style: append($style, $color, space);
+
+        // If an explicit color
+        @if (str-index($color, '#') or str-index($color, 'rgb') or str-index($color, 'hsl')) {
+          $style: append($style, $color, space);
+        }
+
+        // If a named color (no support for transformation functions)
+        @else {
+          $style: append($style, jigsass-color($color), space);
+        }
       }
     }
 
