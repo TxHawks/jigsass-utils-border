@@ -260,8 +260,8 @@ $_jigsass-util-brdr-addition: (
       $state: map-get($parsed-mod-values, state) or '';
     }
 
-    @if (type-of($modifier) != number and unit($modifier) != px) {
-      @error '#{$jigsass-util-name}: A border width must be specified in pixels, ' +
+    @if (type-of($modifier) != number and not index(px rem, unit($modifier))) {
+      @error '#{$jigsass-util-name}: A border width must be specified in pixels or rems, ' +
         'but you are trying to use #{$modifier}.';
     }
 
