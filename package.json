@@ -39,7 +39,7 @@
     "jigsass-tools-bidi": "^1.1.6",
     "jigsass-tools-color": "^1.1.1",
     "jigsass-tools-maps": "^1.0.10",
-    "jigsass-tools-mq": "^1.5.1",
+    "jigsass-tools-mq": "^1.5.2",
     "jigsass-tools-selectors": "^0.9.1",
     "jigsass-tools-strings": "^1.3.2",
     "jigsass-tools-typography": "^1.2.4"
@@ -49,7 +49,7 @@
     "babel-core": "^6.8.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-register": "^6.8.0",
-    "browser-sync": "^2.12.5",
+    "browser-sync": "^2.12.7",
     "del": "^2.2.0",
     "eyeglass": "^0.8.3",
     "gulp": "^3.9.1",
@@ -63,7 +63,7 @@
     "postcss-reporter": "^1.3.3",
     "postcss-scss": "^0.1.5",
     "run-sequence": "^1.1.5",
-    "stylelint": "^6.2.2"
+    "stylelint": "^6.3.3"
   },
   "description": "Border utility classes",
   "license": "MIT",
