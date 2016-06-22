@@ -128,6 +128,21 @@
 					
 				</li>
 				
+				<li>
+					<a href="#u-bdrs--6px"><span>u-bdrs--6px</span></a>
+					
+				</li>
+				
+				<li>
+					<a href="#u-bdrs--50"><span>u-bdrs--50%</span></a>
+					
+				</li>
+				
+				<li>
+					<a href="#u-bdrs--50hover"><span>u-bdrs--50%:hover</span></a>
+					
+				</li>
+				
 	</ul>
 	
 				</li>
@@ -159,6 +174,7 @@ conventions, e.g, bdb--1px(2,solid,#ccc) for setting border-bottom of 1px,
 a padding-bottom of two typographic lines minus the border width, border-style
 of solid and border-color or #ccc.</p>
 <h4 id="available-classes">Available classes</h4>
+<p>  <strong>Border Width</strong><br /></p>
 <ul>
 <li><code>u-bd--&lt;width&gt;</code> (example: u-bd--2px, sets a border of 2 pixels around an element)</li>
 <li><code>u-bd--&lt;width&gt;(&lt;rhythm-units&gt;,&lt;style&gt;,&lt;color&gt;)</code> (example: u-bd--1px(1,dotted,#ccc),
@@ -197,9 +213,12 @@ border-style of <code>dotted</code> and border color of <code>#ccc</code>)</li>
 </ul>
 <ul>
 <li><code>u-bdl--&lt;width&gt;</code> (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)</li>
-<li><code>u-bdl--&lt;width&gt;(&lt;rhythm-units&gt;,&lt;style&gt;,&lt;color&gt;)</code> (example: u-bd--1px(1,dotted,#ccc),
+<li><p><code>u-bdl--&lt;width&gt;(&lt;rhythm-units&gt;,&lt;style&gt;,&lt;color&gt;)</code> (example: u-bd--1px(1,dotted,#ccc),
 sets a border of 1px at the left end of an element, padding of 1 rhythm unit minus 1px, a
-border-style of <code>dotted</code> and border color of <code>#ccc</code>)</li>
+border-style of <code>dotted</code> and border color of <code>#ccc</code>)</p>
+<p><strong>Border Radius</strong><br /></p>
+</li>
+<li><code>u-bdrs--&lt;radius&gt;</code> (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)</li>
 </ul>
 <h4 id="installation">Installation</h4>
 <p>Using npm:</p>
@@ -592,10 +611,55 @@ and padding on <code>:hover</code> so that it does not mess up the vertical rhyt
 			</div>
 		</section>
 		
+		<section id="u-bdrs--6px">
+			<h3>u-bdrs--6px</h3>
+			<div>
+				<p>A utility class to set an element&#39;s border-radius.</p>
+<h4 id="include-with-">Include with:</h4>
+<pre><code class="lang-scss">@include jigsass-util(u-bdrs, $modifier: 6px [, $from, $until, $misc]);
+</code></pre>
+<h4 id="example">Example</h4>
+<pre><code class="lang-example:html">&lt;div class=&#39;fpo  u-bdrs--6px&#39;&gt;&lt;/div&gt;
+</code></pre>
+
+				
 			</div>
 		</section>
 		
-	<footer>Last modified Wednesday, 11 May 2016 12:50</footer>
+		<section id="u-bdrs--50">
+			<h3>u-bdrs--50%</h3>
+			<div>
+				<p>A utility class to set an element&#39;s border-radius.</p>
+<h4 id="include-with-">Include with:</h4>
+<pre><code class="lang-scss">@include jigsass-util(u-bdrs, $modifier: 50% [, $from, $until, $misc]);
+</code></pre>
+<h4 id="example">Example</h4>
+<pre><code class="lang-example:html">&lt;div class=&#39;fpo  u-bdrs--50%&#39;&gt;&lt;/div&gt;
+</code></pre>
+
+				
+			</div>
+		</section>
+		
+		<section id="u-bdrs--50hover">
+			<h3>u-bdrs--50%:hover</h3>
+			<div>
+				<p>A utility class to set an element&#39;s border-radiuson <code>:hover</code> .</p>
+<h4 id="include-with-">Include with:</h4>
+<pre><code class="lang-scss">@include jigsass-util(u-bdrs, $modifier: 50%:hover [, $from, $until, $misc]);
+</code></pre>
+<h4 id="example">Example</h4>
+<pre><code class="lang-example:html">&lt;div class=&#39;fpo  u-bdrs--50%:hover&#39;&gt;&lt;/div&gt;
+</code></pre>
+
+				
+			</div>
+		</section>
+		
+			</div>
+		</section>
+		
+	<footer>Last modified Wednesday, 22 June 2016 13:27</footer>
 </main>
 <script src="prism.js"></script>
 <script src="examples.js"></script>

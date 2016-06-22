@@ -61,6 +61,7 @@ of solid and border-color or #ccc.
 
 #### Available classes
 
+  **Border Width**<br />
   - `u-bd--<width>` (example: u-bd--2px, sets a border of 2 pixels around an element)
   - `u-bd--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
     sets a border of 1px around an element, padding of 1 rhythm unit minus 1px, a
@@ -101,6 +102,9 @@ of solid and border-color or #ccc.
   - `u-bdl--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
     sets a border of 1px at the left end of an element, padding of 1 rhythm unit minus 1px, a
     border-style of `dotted` and border color of `#ccc`)
+
+  **Border Radius**<br />
+  - `u-bdrs--<radius>` (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)
 
 
 
@@ -230,7 +234,8 @@ $_jigsass-util-brdr-addition: (
  u-bdr: 300,
  u-bdb: 400,
  u-bds: 500,
- u-bdl: 600
+ u-bdl: 600,
+ u-bdrs: 700,
 );
 
 
@@ -389,5 +394,56 @@ A utility class to set an element's #{map-get($_jigsass-brdr-prop, $jigsass-util
         $_jigsass-util-brdr-i: $_jigsass-util-brdr-i + 1 !global;
       }
     }
+  }
+}
+
+@include jigsass-define-util('u-bdrs') {
+  @if(not $jigsass-util-modifier) {
+    @error '#{$jigsass-util-name} must be passed a radius length as a modifier.';
+  }
+
+  $modifier: $jigsass-util-modifier;
+  $parsed-mod-values: jigsass-parse-modifier($jigsass-util-modifier);
+  $state: '';
+
+  @if (type-of($modifier) == string) {
+    $modifier: jigsass-str-to-number(map-get($parsed-mod-values, modifier));
+    $state: map-get($parsed-mod-values, state) or '';
+  }
+
+  @if (type-of($modifier) != number and not index('px' 'rem' 'em' '%,' unit($modifier))) {
+    @error '#{$jigsass-util-name}: A border-radius must be specified in pixels, ems, rems or %, ' +
+      'but you are trying to use #{$modifier}.';
+  }
+
+  &#{$state} {
+    border-radius: $modifier;
+  }
+
+  $_doclet: $jigsass-util-name + ($jigsass-util-modifier or '');
+  @if (not index($_doclet-store, $_doclet)) {
+    $_doclet-store: append($_doclet-store, $_doclet) !global;
+    // stylelint-disable
+/* ---
+section: Border Utils
+title: #{$jigsass-util-name}--#{$jigsass-util-modifier}
+order: #{$_jigsass-util-brdr-i + map-get($_jigsass-util-brdr-addition, $jigsass-util-name)}
+---
+A utility class to set an element's border-radius#{if($state != "", "on <code>" + $state + "</code> ", "")}.
+
+#### Include with:
+
+```scss
+@include jigsass-util(#{$jigsass-util-name}, $modifier: #{$jigsass-util-modifier} [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  #{$jigsass-util-name}--#{$jigsass-util-modifier}'></div>
+```
+*/
+    // stylelint-enable
+    $_jigsass-util-brdr-i: $_jigsass-util-brdr-i + 1 !global;
   }
 }

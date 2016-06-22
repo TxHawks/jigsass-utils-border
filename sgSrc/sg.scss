@@ -45,6 +45,10 @@ $_bd: u-bd u-bdt u-bde u-bdr u-bdb u-bds u-bdl;
 }
 
 
+@include jigsass-util('u-bdrs', $modifier: 6px);
+@include jigsass-util('u-bdrs', $modifier: 50%);
+@include jigsass-util('u-bdrs', $modifier: '50%:hover');
+
 
 @import 'index.scss';
 
