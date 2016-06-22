@@ -22,6 +22,7 @@ of solid and border-color or #ccc.
 
 #### Available classes
 
+  **Border Width**<br />
   - `u-bd--<width>` (example: u-bd--2px, sets a border of 2 pixels around an element)
   - `u-bd--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
     sets a border of 1px around an element, padding of 1 rhythm unit minus 1px, a
@@ -62,6 +63,9 @@ of solid and border-color or #ccc.
   - `u-bdl--<width>(<rhythm-units>,<style>,<color>)` (example: u-bd--1px(1,dotted,#ccc),
     sets a border of 1px at the left end of an element, padding of 1 rhythm unit minus 1px, a
     border-style of `dotted` and border color of `#ccc`)
+
+  **Border Radius**<br />
+  - `u-bdrs--<radius>` (example: u-bd--2px, sets a border of 2 pixels at the left end of an element)
 
 
 
@@ -727,6 +731,84 @@ and padding on <code>:hover</code> so that it does not mess up the vertical rhyt
 <div class='fpo  u-bdl--6px(2,solid,#0784ae):hover'></div>
 ```
 */
+}
+
+.u-bdrs--6px {
+  /* ---
+section: Border Utils
+title: u-bdrs--6px
+order: 722
+---
+A utility class to set an element's border-radius.
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdrs, $modifier: 6px [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdrs--6px'></div>
+```
+*/
+}
+
+.u-bdrs--6px {
+  border-radius: 6px;
+}
+
+.u-bdrs--50\% {
+  /* ---
+section: Border Utils
+title: u-bdrs--50%
+order: 723
+---
+A utility class to set an element's border-radius.
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdrs, $modifier: 50% [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdrs--50%'></div>
+```
+*/
+}
+
+.u-bdrs--50\% {
+  border-radius: 50%;
+}
+
+.u-bdrs--50\%\:hover {
+  /* ---
+section: Border Utils
+title: u-bdrs--50%:hover
+order: 724
+---
+A utility class to set an element's border-radiuson <code>:hover</code> .
+
+#### Include with:
+
+```scss
+@include jigsass-util(u-bdrs, $modifier: 50%:hover [, $from, $until, $misc]);
+```
+
+#### Example
+
+```example:html
+<div class='fpo  u-bdrs--50%:hover'></div>
+```
+*/
+}
+
+.u-bdrs--50\%\:hover:hover {
+  border-radius: 50%;
 }
 
 html {
